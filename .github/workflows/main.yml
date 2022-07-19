@@ -1,0 +1,56 @@
+# This workflow will do a clean install of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Newman Tests by Postman.
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  newman:
+    runs-on: ubuntu-latest
+    steps:
+        # 1 - Step - Install dependences.
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: '12'
+      - run: npm install -g newman
+      - run: npm install -g newman-reporter-htmlextra
+
+      # 2 -Step - Run the POSTMAN collection
+      - name: Step 2 - Run POSTMAN collection
+        if: always()
+        continue-on-error: true
+        run: |
+          mkdir -p testResults
+          newman run collections/ewally.postman_collection.json -e collections/ewally.postman_environment.json -r htmlextra --reporter-htmlextra-title "API AUTOMATION" --reporter-htmlextra-export testResults/index.html \
+                --timeout-request 45000 --delay-request 600 --suppress-exit-code
+      
+      # 3 - Steps - Upload the contents of Test Results directory to workspace
+      - name: Step 3 - Output the run Details
+        uses: actions/upload-artifact@v2
+        with: 
+         name: RunReports
+         path: testResults
+         
+      # 4 - Steps - Allure History
+      - name: Step 4 - Get allure history
+        uses: actions/checkout@v2
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages-newman
+          path: gh-pages-newman
+          
+      # Step 5 - Deploy report to Github Pages
+      - name: Step 5 - Deploy report to Github Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v2
+        env:
+            PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            PUBLISH_BRANCH: gh-pages-newman
+            PUBLISH_DIR: testResults
+            
