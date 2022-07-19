@@ -1,0 +1,1953 @@
+{
+	"info": {
+		"_postman_id": "e2d84470-07ff-4b72-bfe4-0442314049ea",
+		"name": "ewally",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4894849"
+	},
+	"item": [
+		{
+			"name": "Autenticar",
+			"item": [
+				{
+					"name": "Autenticar Pessoa Física",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test('Autenticação de usuário com sucesso', function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test('Verificando se o token é vazio', function(){\r",
+									"    pm.expect(jsonData.token.length).to.be.above(10);\r",
+									"})\r",
+									"\r",
+									"pm.environment.set('token', jsonData.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"{{user}}\",\r\n  \"password\": \"{{pass}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Autenticar Pessoa Jurídica",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test('Autenticação de usuário com sucesso', function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test('Verificando se o token é vazio', function(){\r",
+									"    pm.expect(jsonData.token.length).to.be.above(1);\r",
+									"})\r",
+									"\r",
+									"pm.environment.set('token', jsonData.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"{{user_juridico}}\",\r\n  \"password\": \"{{pass}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Autenticar Login Inválido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"pm.test('Verificando o status 400 do request', function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									"\r",
+									"pm.test('Verificando a mensagem de erro no body', function(){\r",
+									"    pm.expect(jsonData.msg).to.include(\"Login e senha não conferem\");\r",
+									"})\r",
+									"\r",
+									"pm.test('Verificando o código 106 de erro no body', function(){\r",
+									"    pm.expect(jsonData.code).to.eql(106);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"{{user_invalido}}\",\r\n    \"password\":\"{{pass}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Autenticar campo login invalido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"pm.test('Verificando o status 400 do request', function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									"\r",
+									"pm.test('Verificando a mensagem de erro no body', function(){\r",
+									"    pm.expect(jsonData.msg).to.include(\"Faltando nome de usuário\");\r",
+									"})\r",
+									"\r",
+									"pm.test('Verificando o código 106 de erro no body', function(){\r",
+									"    pm.expect(jsonData.code).to.eql(102);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username123\":\"{{user_invalido}}\",\r\n    \"password\":\"{{pass}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Autenticar campo senha invalido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"pm.test('Verificando o status 400 do request', function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									"\r",
+									"pm.test('Verificando a mensagem de erro no body', function(){\r",
+									"    pm.expect(jsonData.msg).to.include(\"Faltando senha\");\r",
+									"})\r",
+									"\r",
+									"pm.test('Verificando o código 106 de erro no body', function(){\r",
+									"    pm.expect(jsonData.code).to.eql(103);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"{{user}}\",\r\n    \"password123\":\"{{pass}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Autenticar Senha Inválido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"pm.test('Verificando o status 400 do request', function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									"\r",
+									"pm.test('Verificando a mensagem de erro no body', function(){\r",
+									"    pm.expect(jsonData.msg).to.include(\"Login e senha não conferem\");\r",
+									"})\r",
+									"\r",
+									"pm.test('Verificando o código 106 de erro no body', function(){\r",
+									"    pm.expect(jsonData.code).to.eql(106);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"{{user}}\",\r\n    \"password\":\"{{user_invalido}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Criar Chave Pix",
+			"item": [
+				{
+					"name": "Cadastrar Chave Email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Verificando o status 400 do request\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test('Verificando a mensagem de erro no body', function(){\r",
+									"    pm.expect(jsonData.msg).to.include(\"Chave não verificada. Para realizar essa operação você precisa confirmar ser proprietário e ter acesso à chave\");\r",
+									"})\r",
+									"\r",
+									"pm.test('Verificando o código 4095 de erro no body', function(){\r",
+									"    pm.expect(jsonData.code).to.eql(4095);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"key\": \"leonardoti.dev@gmail.com\",\r\n  \"keyType\": \"email\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/dict/key/{{user}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"dict",
+								"key",
+								"{{user}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Cadastrar Chave Email",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"key\": \"leonardoti.dev@gmail.com\",\r\n  \"keyType\": \"email\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/dict/key/{{user}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"dict",
+										"key",
+										"{{user}}"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "138"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 18 Jul 2022 13:53:37 GMT"
+								},
+								{
+									"key": "x-amzn-RequestId",
+									"value": "3c7daf8c-df1a-46be-aedc-25750a0a78bf"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": ""
+								},
+								{
+									"key": "x-amz-apigw-id",
+									"value": "VdzbCHFZGjQFbVw="
+								},
+								{
+									"key": "X-Amzn-Trace-Id",
+									"value": "Root=1-62d565e0-36a53f2f69c149064588f9ff;Sampled=0"
+								},
+								{
+									"key": "X-Cache",
+									"value": "Error from cloudfront"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 7a33279947fc31cb4cb938b28ff6d688.cloudfront.net (CloudFront)"
+								},
+								{
+									"key": "X-Amz-Cf-Pop",
+									"value": "GIG51-P3"
+								},
+								{
+									"key": "X-Amz-Cf-Id",
+									"value": "Qa6c-oJSs8ZcIj3MrsIEAw2NmqCxPX2QWzyEU4Rx7Ze9XxZHmR80Kw=="
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 4095,\n    \"msg\": \"Chave não verificada. Para realizar essa operação você precisa confirmar ser proprietário e ter acesso à chave\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Cadastrar Chave Mobile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"pm.test(\"Verificando o status 400 do request\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test('Verificando a mensagem de erro no body', function(){\r",
+									"    pm.expect(jsonData.msg).to.include(\"Chave não verificada. Para realizar essa operação você precisa confirmar ser proprietário e ter acesso à chave\");\r",
+									"})\r",
+									"\r",
+									"pm.test('Verificando o código 4095 de erro no body', function(){\r",
+									"    pm.expect(jsonData.code).to.eql(4095);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"key\": \"5521981278427\",\r\n  \"keyType\": \"mobile\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/dict/key/{{user}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"dict",
+								"key",
+								"{{user}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Cadastrar Chave Mobile",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"key\": \"5521981278427\",\r\n  \"keyType\": \"mobile\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/dict/key/{{user}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"dict",
+										"key",
+										"{{user}}"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "138"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 18 Jul 2022 13:54:18 GMT"
+								},
+								{
+									"key": "x-amzn-RequestId",
+									"value": "2f792447-d717-46b2-8aa8-89ed1952e617"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": ""
+								},
+								{
+									"key": "x-amz-apigw-id",
+									"value": "VdzhZE79mjQFhVQ="
+								},
+								{
+									"key": "X-Amzn-Trace-Id",
+									"value": "Root=1-62d56608-4b85e1fd0d255bb56d049339;Sampled=0"
+								},
+								{
+									"key": "X-Cache",
+									"value": "Error from cloudfront"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 7a33279947fc31cb4cb938b28ff6d688.cloudfront.net (CloudFront)"
+								},
+								{
+									"key": "X-Amz-Cf-Pop",
+									"value": "GIG51-P3"
+								},
+								{
+									"key": "X-Amz-Cf-Id",
+									"value": "HkuerZC4iNNTDSOTngTHlpyPAdqb7879otf86NhX6Yilsy7rAcN2nw=="
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 4095,\n    \"msg\": \"Chave não verificada. Para realizar essa operação você precisa confirmar ser proprietário e ter acesso à chave\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Cadastrar Chave Documento",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Verificando o status 400 do request\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test('Verificando a mensagem de erro no body', function(){\r",
+									"    pm.expect(jsonData.msg).to.include(\"Chave duplicada. Não foi possível registrar essa chave pois ela já se encontra cadastrada em sua conta.\");\r",
+									"})\r",
+									"\r",
+									"pm.test('Verificando o código 4042 de erro no body', function(){\r",
+									"    pm.expect(jsonData.code).to.eql(4042);\r",
+									"})\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"key\": \"97344890038\",\r\n  \"keyType\": \"document\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/dict/key/{{user}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"dict",
+								"key",
+								"{{user}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Cadastrar Chave Documento",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"key\": \"97344890038\",\r\n  \"keyType\": \"document\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/dict/key/{{user}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"dict",
+										"key",
+										"{{user}}"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "128"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 19 Jul 2022 14:41:57 GMT"
+								},
+								{
+									"key": "x-amzn-RequestId",
+									"value": "b8b80f33-d7fd-4494-84e9-064c4b036c0d"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": ""
+								},
+								{
+									"key": "x-amz-apigw-id",
+									"value": "VhNbwE0vGjQFQaA="
+								},
+								{
+									"key": "X-Amzn-Trace-Id",
+									"value": "Root=1-62d6c2b1-4b27852e1e1ecd711075e439;Sampled=0"
+								},
+								{
+									"key": "X-Cache",
+									"value": "Error from cloudfront"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 b8dc417ba6d4114fa36e70936e3db5c2.cloudfront.net (CloudFront)"
+								},
+								{
+									"key": "X-Amz-Cf-Pop",
+									"value": "GIG51-C1"
+								},
+								{
+									"key": "X-Amz-Cf-Id",
+									"value": "pkOLJ7-o6241WBJNfLX-QByf40eQxJaQkFIZEiMOZHqYBcBVoyWxQQ=="
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 4042,\n    \"msg\": \"Chave duplicada. Não foi possível registrar essa chave pois ela já se encontra cadastrada em sua conta.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Cadastrar Chave Evp",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Verificando o status 200 do request\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validando schema\", function () {\r",
+									"    pm.response.to.have.jsonSchema(environment.schema)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"\r",
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\": {\r",
+									"        \"key\": {\r",
+									"            \"type\": \"string\"\r",
+									"        },\r",
+									"        \"keyType\": {\r",
+									"            \"type\": \"string\"\r",
+									"        },\r",
+									"        \"status\": {\r",
+									"            \"type\":\"string\"\r",
+									"        },\r",
+									"        \"id\": {\r",
+									"            \"type\": \"string\"\r",
+									"        },\r",
+									"        \"createAt\": {\r",
+									"            \"type\": \"number\"\r",
+									"        }\r",
+									"    }\r",
+									"};\r",
+									"\r",
+									"pm.environment.set(\"schema\", schema);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"keyType\": \"evp\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/dict/key/{{user}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"dict",
+								"key",
+								"{{user}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Cadastrar Chave Evp",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"keyType\": \"evp\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/dict/key/{{user}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"dict",
+										"key",
+										"{{user}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "124"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 19 Jul 2022 14:43:31 GMT"
+								},
+								{
+									"key": "x-amzn-RequestId",
+									"value": "911cdd63-5dfd-45c7-9285-7ecb43573f00"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": ""
+								},
+								{
+									"key": "x-amz-apigw-id",
+									"value": "VhNqPE0iGjQFu1Q="
+								},
+								{
+									"key": "X-Amzn-Trace-Id",
+									"value": "Root=1-62d6c30e-64cb12847490ea5b06f70222;Sampled=0"
+								},
+								{
+									"key": "X-Cache",
+									"value": "Miss from cloudfront"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 b8dc417ba6d4114fa36e70936e3db5c2.cloudfront.net (CloudFront)"
+								},
+								{
+									"key": "X-Amz-Cf-Pop",
+									"value": "GIG51-C1"
+								},
+								{
+									"key": "X-Amz-Cf-Id",
+									"value": "4K4hIfhO1khBRIs7cLdYlJSB-KC4vl9wt_DQnoXxjmh9UnAoc-grqw=="
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"a707872a-7eb9-48ce-b30c-9fce46668516\",\n    \"key\": \"dd83c60c-1199-4cb9-a1c8-15b7c4a01a39\",\n    \"keyType\": \"evp\",\n    \"status\": \"active\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Buscar Chaves Pix",
+			"item": [
+				{
+					"name": "Buscar Chaves Pix",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Verificando o status 200 do request\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validando schema\", function () {\r",
+									"    pm.response.to.have.jsonSchema(environment.schema)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const schema = {\r",
+									"    \"$id\": \"http://example.com/example.json\",\r",
+									"    \"type\": \"object\",\r",
+									"    \"default\": {},\r",
+									"    \"title\": \"Root Schema\",\r",
+									"    \"required\": [\r",
+									"        \"keys\"\r",
+									"    ],\r",
+									"    \"properties\": {\r",
+									"        \"keys\": {\r",
+									"            \"type\": \"array\",\r",
+									"            \"default\": [],\r",
+									"            \"title\": \"The keys Schema\",\r",
+									"            \"items\": {\r",
+									"                \"type\": \"object\",\r",
+									"                \"title\": \"A Schema\",\r",
+									"                \"required\": [\r",
+									"                    \"id\",\r",
+									"                    \"key\",\r",
+									"                    \"keyType\",\r",
+									"                    \"createAt\",\r",
+									"                    \"status\"\r",
+									"                ],\r",
+									"                \"properties\": {\r",
+									"                    \"id\": {\r",
+									"                        \"type\": \"string\",\r",
+									"                        \"title\": \"The id Schema\"\r",
+									"                    },\r",
+									"                    \"key\": {\r",
+									"                        \"type\": \"string\",\r",
+									"                        \"title\": \"The key Schema\"\r",
+									"                    },\r",
+									"                    \"keyType\": {\r",
+									"                        \"type\": \"string\",\r",
+									"                        \"title\": \"The keyType Schema\"\r",
+									"                    },\r",
+									"                    \"createAt\": {\r",
+									"                        \"type\": \"integer\",\r",
+									"                        \"title\": \"The createAt Schema\"\r",
+									"                    },\r",
+									"                    \"status\": {\r",
+									"                        \"type\": \"string\",\r",
+									"                        \"title\": \"The status Schema\"\r",
+									"                    }\r",
+									"                }\r",
+									"            }\r",
+									"        }\r",
+									"    }\r",
+									"}\r",
+									"\r",
+									"pm.environment.set(\"schema\", schema);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/dict/key/{{user}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"dict",
+								"key",
+								"{{user}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Buscar Chaves Pix",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/dict/key/{{user}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"dict",
+										"key",
+										"{{user}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "160"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 18 Jul 2022 17:35:00 GMT"
+								},
+								{
+									"key": "x-amzn-RequestId",
+									"value": "8ff77921-0473-4cfd-8463-ce0e365daa2f"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": ""
+								},
+								{
+									"key": "x-amz-apigw-id",
+									"value": "VeT2OHfOGjQFccw="
+								},
+								{
+									"key": "X-Amzn-Trace-Id",
+									"value": "Root=1-62d599c1-63594c41175c6b6670857b89;Sampled=0"
+								},
+								{
+									"key": "X-Cache",
+									"value": "Miss from cloudfront"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 384a4cab1406aa03ee656af1375f4df0.cloudfront.net (CloudFront)"
+								},
+								{
+									"key": "X-Amz-Cf-Pop",
+									"value": "GIG51-P3"
+								},
+								{
+									"key": "X-Amz-Cf-Id",
+									"value": "caTfVlj-WQSbvHwQjaK6j9PUzWKp0EActSfIzdGMZ_q6_lr4Qik8lA=="
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"keys\": [\n        {\n            \"id\": \"f44601cc-32c4-460a-8688-1abb59c31392\",\n            \"key\": \"d5ffc69a-b775-4743-b4a5-f9bf3ce8511c\",\n            \"keyType\": \"evp\",\n            \"createAt\": 1657558597110,\n            \"status\": \"active\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Buscar Chave Especifica",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Verificar o status 200 do request\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Listar a chave pix\", function () {\r",
+									"    pm.expect(jsonData).to.include.keys('key');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/dict/key/{{user}}/f44601cc-32c4-460a-8688-1abb59c31392",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"dict",
+								"key",
+								"{{user}}",
+								"f44601cc-32c4-460a-8688-1abb59c31392"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Buscar Chave Especifica",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/dict/key/{{user}}/f44601cc-32c4-460a-8688-1abb59c31392",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"dict",
+										"key",
+										"{{user}}",
+										"f44601cc-32c4-460a-8688-1abb59c31392"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "157"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 18 Jul 2022 17:34:23 GMT"
+								},
+								{
+									"key": "x-amzn-RequestId",
+									"value": "d8f493ae-5492-40a0-b8e7-7b49a8ae3ea3"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": ""
+								},
+								{
+									"key": "x-amz-apigw-id",
+									"value": "VeTw7FgnmjQFV-A="
+								},
+								{
+									"key": "X-Amzn-Trace-Id",
+									"value": "Root=1-62d5999f-6f9eb8cf3674791d44d2eee7;Sampled=0"
+								},
+								{
+									"key": "X-Cache",
+									"value": "Miss from cloudfront"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 384a4cab1406aa03ee656af1375f4df0.cloudfront.net (CloudFront)"
+								},
+								{
+									"key": "X-Amz-Cf-Pop",
+									"value": "GIG51-P3"
+								},
+								{
+									"key": "X-Amz-Cf-Id",
+									"value": "HEgB6Pl1x8g_n0Mt-IyMmc0OtL7ubiv25swF2pbSZC3OoHKAKyNHTw=="
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"key\": {\n        \"id\": \"f44601cc-32c4-460a-8688-1abb59c31392\",\n        \"key\": \"d5ffc69a-b775-4743-b4a5-f9bf3ce8511c\",\n        \"keyType\": \"evp\",\n        \"createAt\": 1657558597110,\n        \"status\": \"active\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Buscar Chave Especifica inválida",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Verificar o status 404 do request\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test('Verificando a mensagem de erro no body', function(){\r",
+									"    const msg = jsonData.msg;\r",
+									"    pm.expect(msg).to.include(\"Chave não encontrada em seu cadastro\");\r",
+									"})\r",
+									"\r",
+									"pm.test('Verificando o código 4043 de erro no body', function(){\r",
+									"    const code = jsonData.code;\r",
+									"    pm.expect(code).to.eql(4043);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/dict/key/{{user}}/f44601cc-32c4-460a-8688-1abb59c31394",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"dict",
+								"key",
+								"{{user}}",
+								"f44601cc-32c4-460a-8688-1abb59c31394"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Buscar Chave Especifica inválida",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/dict/key/{{user}}/f44601cc-32c4-460a-8688-1abb59c31394",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"dict",
+										"key",
+										"{{user}}",
+										"f44601cc-32c4-460a-8688-1abb59c31394"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "102"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 18 Jul 2022 17:31:25 GMT"
+								},
+								{
+									"key": "x-amzn-RequestId",
+									"value": "66b58271-2e67-4d16-b57e-16f4f632415d"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": ""
+								},
+								{
+									"key": "x-amz-apigw-id",
+									"value": "VeTVEHcPmjQFuCg="
+								},
+								{
+									"key": "X-Amzn-Trace-Id",
+									"value": "Root=1-62d598ed-0012f76d415913553b48cb66;Sampled=0"
+								},
+								{
+									"key": "X-Cache",
+									"value": "Error from cloudfront"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 384a4cab1406aa03ee656af1375f4df0.cloudfront.net (CloudFront)"
+								},
+								{
+									"key": "X-Amz-Cf-Pop",
+									"value": "GIG51-P3"
+								},
+								{
+									"key": "X-Amz-Cf-Id",
+									"value": "CT1fY4mPPPP-kBjIfDTzGHHYXfwll024T3hvavHHGxb9obW-UTkK0g=="
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 4043,\n    \"msg\": \"Você não possui chave cadastrada, antes de finalizar o pix, cadastre sua chave\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Confirmar Codigo",
+			"item": [
+				{
+					"name": "Código de Verificação",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Verificando o status 200 do request\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/pix/key/verify/{{user}}?key=leonardoti.dev@gmail.com&keyType=email",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"pix",
+								"key",
+								"verify",
+								"{{user}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "leonardoti.dev@gmail.com"
+								},
+								{
+									"key": "keyType",
+									"value": "email"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Confirmar código inválido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"pm.test('Verificando o status 400 do request', function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"})\r",
+									"\r",
+									"pm.test('Verificando a mensagem de erro no body', function(){\r",
+									"    const msg = jsonData.msg;\r",
+									"    pm.expect(msg).to.include(\"Código incorreto, você tem mais 2 tentativas antes de o código ser invalidado\");\r",
+									"})\r",
+									"\r",
+									"pm.test('Verificando o código 4092 de erro no body', function(){\r",
+									"    const code = jsonData.code;\r",
+									"    pm.expect(code).to.eql(4092);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/pix/key/verify/{{user}}?key=leonardoti.dev@gmail.com&code=1234",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"pix",
+								"key",
+								"verify",
+								"{{user}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "leonardoti.dev@gmail.com"
+								},
+								{
+									"key": "code",
+									"value": "1234"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Confirmar código",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/pix/key/verify/{{user}}?key=leonardoti.dev@gmail.com&code=1234",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"pix",
+										"key",
+										"verify",
+										"{{user}}"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "leonardoti.dev@gmail.com"
+										},
+										{
+											"key": "code",
+											"value": "1234"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "102"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 18 Jul 2022 14:10:45 GMT"
+								},
+								{
+									"key": "x-amzn-RequestId",
+									"value": "6071b4e5-4af4-4d9e-b12b-21a4c3bd9500"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": ""
+								},
+								{
+									"key": "x-amz-apigw-id",
+									"value": "Vd17pHCcGjQFS4Q="
+								},
+								{
+									"key": "X-Amzn-Trace-Id",
+									"value": "Root=1-62d569e3-1ef8943532a4ae2116873a83;Sampled=0"
+								},
+								{
+									"key": "X-Cache",
+									"value": "Error from cloudfront"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 1921aa738be60545d4da0b894f61557e.cloudfront.net (CloudFront)"
+								},
+								{
+									"key": "X-Amz-Cf-Pop",
+									"value": "GIG51-P3"
+								},
+								{
+									"key": "X-Amz-Cf-Id",
+									"value": "y5mien1VDu_6R1wR9UN65cXMZaiIgsY-aXCBg3VHrIUPuWFfQxUeqg=="
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 4092,\n    \"msg\": \"Código incorreto, você tem mais 2 tentativas antes de o código ser invalidado\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Deletar",
+			"item": [
+				{
+					"name": "Deletar Chave Pix",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Verificando o status 200 do request\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test('Verificando a mensagem de status no body', function(){\r",
+									"    pm.expect(jsonData.msg).to.include(\"deleted\");\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/dict/key/{{user}}?id=ce6e3580-ae2b-498d-9889-496923ec4dee",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"dict",
+								"key",
+								"{{user}}"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "id",
+									"value": "ce6e3580-ae2b-498d-9889-496923ec4dee"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Deletar Chave Pix",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{url}}/dict/key/{{user}}?id=8b5bddf3-6d1f-48ec-9b99-8625577d982c",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"dict",
+										"key",
+										"{{user}}"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "id",
+											"value": "8b5bddf3-6d1f-48ec-9b99-8625577d982c"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "64"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 18 Jul 2022 13:49:37 GMT"
+								},
+								{
+									"key": "x-amzn-RequestId",
+									"value": "238e48ef-a035-4832-96c9-d11daadc277e"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": ""
+								},
+								{
+									"key": "x-amz-apigw-id",
+									"value": "Vdy1aH7HmjQFrgQ="
+								},
+								{
+									"key": "X-Amzn-Trace-Id",
+									"value": "Root=1-62d564ef-30c55b654850de9d6abada64;Sampled=0"
+								},
+								{
+									"key": "X-Cache",
+									"value": "Miss from cloudfront"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 7a33279947fc31cb4cb938b28ff6d688.cloudfront.net (CloudFront)"
+								},
+								{
+									"key": "X-Amz-Cf-Pop",
+									"value": "GIG51-P3"
+								},
+								{
+									"key": "X-Amz-Cf-Id",
+									"value": "eQPAogl5hIfclWh_OfNKX89Tcg73hrFxp5RLiG0c-h0QPIT2e6e5dA=="
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"8b5bddf3-6d1f-48ec-9b99-8625577d982c\",\n    \"status\": \"deleted\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Deletar Chave Pix inválida",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Verificando o status 404 do request\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									"pm.test('Verificando a mensagem de status no body', function(){\r",
+									"    pm.expect(jsonData.msg).to.include(\"Chave não encontrada em seu cadastro\");\r",
+									"});\r",
+									"\r",
+									"pm.test('Verificando o código 4043 de erro no body', function(){\r",
+									"    pm.expect(jsonData.code).to.eql(4043);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/dict/key/{{user}}?id=ce6e3580-ae2b-498d-9889-496923e",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"dict",
+								"key",
+								"{{user}}"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "id",
+									"value": "ce6e3580-ae2b-498d-9889-496923e"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Deletar Chave Pix inválida",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{url}}/dict/key/{{user}}?id=ce6e3580-ae2b-498d-9889-496923e",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"dict",
+										"key",
+										"{{user}}"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "id",
+											"value": "ce6e3580-ae2b-498d-9889-496923e"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "102"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 18 Jul 2022 23:44:17 GMT"
+								},
+								{
+									"key": "x-amzn-RequestId",
+									"value": "3ea47d5b-9991-49f5-91ee-7564b3dea371"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": ""
+								},
+								{
+									"key": "x-amz-apigw-id",
+									"value": "VfJ8uFKpGjQFeCw="
+								},
+								{
+									"key": "X-Amzn-Trace-Id",
+									"value": "Root=1-62d5f051-620f12a8540416986f14ddce;Sampled=0"
+								},
+								{
+									"key": "X-Cache",
+									"value": "Error from cloudfront"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 e2b07e0323cf4992051b8cfa742116ce.cloudfront.net (CloudFront)"
+								},
+								{
+									"key": "X-Amz-Cf-Pop",
+									"value": "GIG51-P3"
+								},
+								{
+									"key": "X-Amz-Cf-Id",
+									"value": "iKAs0D4BcWf3KsNISQcKDiVY8QwRhRCc1gA1DcaDhXEnSflDTRh2bA=="
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 4043,\n    \"msg\": \"Você não possui chave cadastrada, antes de finalizar o pix, cadastre sua chave\""
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"Content-Type header is application/json\", () => {",
+					"  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+					"});",
+					""
+				]
+			}
+		}
+	]
+}
